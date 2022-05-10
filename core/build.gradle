@@ -1,0 +1,92 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    def nav_version = "2.4.2"
+    def roomVersion = "2.4.2"
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    api 'com.google.android.material:material:1.6.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // navigation
+    api "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    api "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // retrofit
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api "com.squareup.okhttp3:okhttp:4.9.0"
+    api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    api 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-compiler:2.38.1"
+    api 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
+
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    api 'androidx.fragment:fragment-ktx:1.4.1'
+
+    //Room
+    api("androidx.room:room-runtime:$roomVersion") {
+        exclude group: 'com.google.code.gson'
+    }
+    api("androidx.room:room-ktx:$roomVersion") {
+        exclude group: 'com.google.code.gson'
+    }
+    kapt "androidx.room:room-compiler:$roomVersion"
+    androidTestImplementation("androidx.room:room-testing:$roomVersion") {
+        exclude group: 'com.google.code.gson'
+    }
+
+    // lifecycle
+    api 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    api 'androidx.fragment:fragment-ktx:1.4.1'
+
+    api 'com.google.android.gms:play-services-maps:18.0.2'
+
+    // nv-websocket-client
+    api 'com.neovisionaries:nv-websocket-client:2.14'
+}
+
+kapt {
+    correctErrorTypes = true
+}
