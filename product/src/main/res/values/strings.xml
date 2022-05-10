@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">product</string>
+    <string name="search">Search</string>
+    <string name="info">Hello! To get the closing price details of a product, type in the product\'s identifier in the search field below.</string>
+    <string name="info_2">You can also choose from our pre-defined list of products:</string>
+    <string name="us500">US500</string>
+    <string name="sb26496">sb26496</string>
+    <string name="euro_usd">EURO/USD</string>
+    <string name="sb26502">sb26502</string>
+    <string name="gold">Gold</string>
+    <string name="sb28248">sb28248</string>
 </resources>
