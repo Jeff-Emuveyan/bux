@@ -1,13 +1,11 @@
 package com.example.product.ui.search
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.product.R
 import com.example.product.databinding.FragmentProductSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,9 +32,5 @@ class ProductSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.button.setOnClickListener {
-            viewModel.getProductDetails("sb26493")
-        }
     }
 }
