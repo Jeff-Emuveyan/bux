@@ -5,14 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.product.R
+import com.example.product.databinding.DialogFragmentProductDetailsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
 
+    companion object{
+        var isSheetOpen:Boolean = false
+    }
+
+    private var _binding: DialogFragmentProductDetailsBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_fragment_product_details, container, false)
+        _binding = DialogFragmentProductDetailsBinding.inflate(inflater, container, false)
+        return _binding?.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +37,7 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
+        isSheetOpen = false
+        _binding = null
     }
 }

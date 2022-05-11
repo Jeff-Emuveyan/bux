@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">product</string>
     <string name="search">Search</string>
+    <string name="network_error">Network error. Please try again</string>
+    <string name="not_found">No product found with the provided identifier.</string>
     <string name="info">Hello! To get the closing price details of a product, type in the product\'s identifier in the search field below.</string>
     <string name="info_2">You can also choose from our pre-defined list of products:</string>
     <string name="us500">US500</string>
