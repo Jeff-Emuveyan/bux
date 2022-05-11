@@ -77,10 +77,10 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
 
         tvProductName.text = sharedViewModel.getProductName(productDetailResponse)
         tvProductIdentifier.text = sharedViewModel.getProductIdentifier(productDetailResponse)
-        tvCurrentPrice.text = sharedViewModel.getCurrentPrice(productDetailResponse)
-        tvPreviousPrice.text = sharedViewModel.getPreviousPrice(productDetailResponse)
-        tvPercentage.text = sharedViewModel.getPerentageDifferenceOfPrices(productDetailResponse)
-        val hasRisen = sharedViewModel.hasProductRisen()
+        tvCurrentPrice.text = sharedViewModel.getCurrentPriceForDisplay(productDetailResponse)
+        tvPreviousPrice.text = sharedViewModel.getPreviousPriceForDisplay(productDetailResponse)
+        tvPercentage.text = sharedViewModel.getPercentageDifferenceOfPrices(productDetailResponse)
+        val hasRisen = sharedViewModel.hasProductRisen(productDetailResponse)
         if (hasRisen) {
             imageView2.setImageResource(R.drawable.arrow_up)
         } else {

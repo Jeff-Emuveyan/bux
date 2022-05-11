@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             app:endIconDrawable="@drawable/ic_close"
             app:endIconMode="custom"
+            android:layout_marginBottom="8dp"
             app:hintTextColor="@color/light_ash"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"

@@ -17,7 +17,6 @@ import com.example.product.ui.details.ProductDetailsBottomSheet
 import com.example.product.util.PRODUCT_IDENTIFIER_EURO_US
 import com.example.product.util.PRODUCT_IDENTIFIER_GERMANY30
 import com.example.product.util.PRODUCT_IDENTIFIER_US500
-import com.example.product.util.hideChildren
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -88,7 +87,6 @@ class ProductSearchFragment : Fragment() {
     private fun uiStateLoading() = with(binding) {
         button.visibility = View.INVISIBLE
         progressBar.visibility = View.VISIBLE
-        linearLayout.hideChildren(true)
     }
 
     private fun uiStateNetworkError() = with(binding) {
@@ -111,7 +109,6 @@ class ProductSearchFragment : Fragment() {
     private fun uiStateDefault() = with(binding) {
         button.visibility = View.VISIBLE
         progressBar.visibility = View.INVISIBLE
-        linearLayout.hideChildren(false)
     }
 
     private fun openProductDetailsDialog() {
