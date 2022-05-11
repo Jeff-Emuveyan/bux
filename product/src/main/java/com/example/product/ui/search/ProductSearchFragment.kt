@@ -31,10 +31,9 @@ class ProductSearchFragment : Fragment() {
     private var _binding: FragmentProductSearchBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         _binding = FragmentProductSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,13 +46,13 @@ class ProductSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
-        setUpUi(Result(UIStateType.DEFAULT))
+        setUpUIState(Result(UIStateType.DEFAULT))
         handleClicks()
     }
 
     private fun observeData() {
         viewModel.uiState.onEach {
-            setUpUi(it)
+            setUpUIState(it)
         }.flowWithLifecycle(lifecycle).launchIn(lifecycleScope)
     }
 
@@ -76,7 +75,7 @@ class ProductSearchFragment : Fragment() {
         }
     }
 
-    private fun setUpUi(result: Result) {
+    private fun setUpUIState(result: Result) {
         when(result.type) {
             UIStateType.LOADING -> uiStateLoading()
             UIStateType.NETWORK_ERROR -> uiStateNetworkError()
@@ -94,7 +93,8 @@ class ProductSearchFragment : Fragment() {
 
     private fun uiStateNetworkError() = with(binding) {
         uiStateDefault()
-        Snackbar.make(requireContext(), requireView(), getText(R.string.network_error), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(requireContext(), requireView(), getText(R.string.network_error), Snackbar.LENGTH_LONG)
+            .show()
     }
 
     private fun uiStateSuccess() = with(binding) {
@@ -104,7 +104,8 @@ class ProductSearchFragment : Fragment() {
 
     private fun uiStateNoResult() = with(binding) {
         uiStateDefault()
-        Snackbar.make(requireContext(), requireView(), getText(R.string.not_found), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(requireContext(), requireView(), getText(R.string.not_found), Snackbar.LENGTH_LONG)
+            .show()
     }
 
     private fun uiStateDefault() = with(binding) {
@@ -122,10 +123,11 @@ class ProductSearchFragment : Fragment() {
 
     private fun searchForProduct(identifier: String?) {
         if (identifier.isNullOrBlank() || identifier.isEmpty()) {
-            Snackbar.make(requireContext(), requireView(), getText(R.string.invalid_input), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireContext(), requireView(), getText(R.string.invalid_input), Snackbar.LENGTH_LONG)
+                .show()
             return
         }
-        setUpUi(Result(UIStateType.LOADING))
+        setUpUIState(Result(UIStateType.LOADING))
         viewModel.searchForProduct(identifier)
     }
 }
