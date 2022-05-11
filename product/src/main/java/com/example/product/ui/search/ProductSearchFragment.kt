@@ -72,6 +72,10 @@ class ProductSearchFragment : Fragment() {
         layoutEuro.setOnClickListener {
             searchForProduct(PRODUCT_IDENTIFIER_EURO_US)
         }
+
+        editTextTextLayout.setEndIconOnClickListener {
+            tvSearch.text?.clear()
+        }
     }
 
     private fun setUpUIState(result: Result) {
