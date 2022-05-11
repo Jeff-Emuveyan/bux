@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/lato"
+            android:textSize="@dimen/text_size_default"
             android:text="@string/info"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
@@ -111,6 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato"
+            android:textSize="@dimen/text_size_default"
             android:text="@string/info_2"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,6 +147,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textSize="@dimen/text_size_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -153,6 +156,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:textSize="@dimen/text_size_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato"
@@ -180,6 +184,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textSize="@dimen/text_size_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -188,6 +193,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:textSize="@dimen/text_size_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato"
@@ -215,6 +221,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textSize="@dimen/text_size_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -223,6 +230,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:textSize="@dimen/text_size_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato"
