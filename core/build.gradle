@@ -85,6 +85,9 @@ dependencies {
 
     // nv-websocket-client
     api 'com.neovisionaries:nv-websocket-client:2.14'
+
+    //Shimmer
+    api 'com.facebook.shimmer:shimmer:0.5.0'
 }
 
 kapt {

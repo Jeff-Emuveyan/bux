@@ -11,12 +11,11 @@
         android:label="fragment_product_search"
         tools:layout="@layout/fragment_product_search" >
         <action
-            android:id="@+id/action_productSearchFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
+            android:id="@+id/action_productSearchFragment_to_productDetailsBottomSheet"
+            app:destination="@id/productDetailsBottomSheet" />
     </fragment>
-    <fragment
-        android:id="@+id/productDetailsFragment"
-        android:name="com.example.product.ui.details.ProductDetailsFragment"
-        android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" />
+    <dialog
+        android:id="@+id/productDetailsBottomSheet"
+        android:name="com.example.product.ui.details.ProductDetailsBottomSheet"
+        android:label="ProductDetailsBottomSheet" />
 </navigation>

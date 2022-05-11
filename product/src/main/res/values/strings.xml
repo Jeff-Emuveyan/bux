@@ -9,4 +9,6 @@
     <string name="sb26502">sb26502</string>
     <string name="gold">Gold</string>
     <string name="sb28248">sb28248</string>
+    <string name="current_price">Current Price:\t</string>
+    <string name="previous_price">Previous Price:\t</string>
 </resources>

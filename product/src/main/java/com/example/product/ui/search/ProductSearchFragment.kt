@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.product.databinding.FragmentProductSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,5 +33,10 @@ class ProductSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.button.setOnClickListener {
+            val action = ProductSearchFragmentDirections.actionProductSearchFragmentToProductDetailsBottomSheet()
+            findNavController().navigate(action)
+        }
     }
 }

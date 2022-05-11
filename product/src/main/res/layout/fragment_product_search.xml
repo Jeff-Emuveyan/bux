@@ -7,11 +7,14 @@
     android:padding="8dp"
     tools:context=".ui.search.ProductSearchFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="8dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/view"
@@ -40,8 +43,8 @@
             android:layout_marginStart="16dp"
             android:background="@color/light_ash"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <TextView
@@ -49,9 +52,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:textColor="@color/black"
             android:fontFamily="@font/lato"
             android:text="@string/info"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -59,22 +62,22 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editTextTextPersonName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:layout_constraintBottom_toTopOf="@+id/button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:endIconDrawable="@drawable/ic_close"
             app:endIconMode="custom"
             app:hintTextColor="@color/light_ash"
-            app:endIconDrawable="@drawable/ic_close">
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tvSearch"
-                android:fontFamily="@font/lato"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:hint="@string/search"/>
+                android:fontFamily="@font/lato"
+                android:hint="@string/search"
+                android:paddingBottom="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,10 +86,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:text="@string/search"
-            android:textAllCaps="false"
             android:backgroundTint="@color/pink"
             android:fontFamily="@font/lato"
+            android:text="@string/search"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -96,8 +99,8 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:visibility="invisible"
             android:indeterminateTint="@color/pink"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/button"
             app:layout_constraintEnd_toEndOf="@+id/button"
             app:layout_constraintStart_toStartOf="@+id/button"
@@ -105,9 +108,9 @@
 
         <TextView
             android:id="@+id/textView"
-            android:fontFamily="@font/lato"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
             android:text="@string/info_2"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -117,112 +120,112 @@
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical">
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/germany"
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
                     android:layout_width="5dp"
-                    android:layout_height="5dp"/>
+                    android:layout_height="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle" />
 
                 <LinearLayout
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:textColor="@color/black"
                         android:fontFamily="@font/lato"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Germany30" />
+                        android:text="Germany30"
+                        android:textColor="@color/black" />
 
                     <TextView
-                        android:fontFamily="@font/lato"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato"
                         android:text="sb26493" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/us500"
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
                     android:layout_width="5dp"
-                    android:layout_height="5dp"/>
+                    android:layout_height="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle" />
 
                 <LinearLayout
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:textColor="@color/black"
                         android:fontFamily="@font/lato"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/us500" />
+                        android:text="@string/us500"
+                        android:textColor="@color/black" />
 
                     <TextView
-                        android:fontFamily="@font/lato"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato"
                         android:text="@string/sb26496" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/euro"
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
                     android:layout_width="5dp"
-                    android:layout_height="5dp"/>
+                    android:layout_height="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle" />
 
                 <LinearLayout
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:textColor="@color/black"
                         android:fontFamily="@font/lato"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/euro_usd" />
+                        android:text="@string/euro_usd"
+                        android:textColor="@color/black" />
 
                     <TextView
-                        android:fontFamily="@font/lato"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato"
                         android:text="@string/sb26502" />
                 </LinearLayout>
             </LinearLayout>
