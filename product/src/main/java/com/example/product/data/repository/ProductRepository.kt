@@ -1,6 +1,5 @@
 package com.example.product.data.repository
 
-import android.util.Log
 import com.example.core.model.ConnectionStatus
 import com.example.core.model.NetworkResult
 import com.example.core.model.request.ProductDetailRequest
@@ -27,7 +26,6 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         if (productResponse == null) {
             _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
         } else {
-            Log.e("JAMES", "Success: ${productResponse.toString()}")
             searchForProductUpdates(productResponse)
         }
     }
@@ -61,9 +59,9 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) {
         try {
             val serverResponse = Gson().fromJson(serverResponseText, WebServerResponse::class.java)
-            val securityId = serverResponse.body?.securityId
+            val productIdentifier = productResponse.securityId
             when {
-                isConnectedToServer(serverResponse) -> requestForLiveProductUpdates(securityId)
+                isConnectedToServer(serverResponse) -> requestForLiveProductUpdates(productIdentifier)
                 isLiveDataStreamAvailable(serverResponse) -> { emitRealTimeUpdate(productResponse, serverResponse) }
             }
         } catch (e: JsonSyntaxException) {
@@ -72,6 +70,8 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     }
 
     private fun requestForLiveProductUpdates(productIdentifier: String?) {
+        if (productIdentifier == null) return
+
         val request = ProductDetailRequest(listOf("trading.product.$productIdentifier"), emptyList())
         val requestAsString = Gson().toJson(request)
         remoteDataSource.getProductDetails(requestAsString)

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.model.ConnectionStatus
 import com.example.core.model.NetworkResult
 import com.example.core.model.response.ProductDetailResponse
+import com.example.core.util.round
 import com.example.product.data.model.UIResult
 import com.example.product.data.model.UIStateType
 import com.example.product.data.repository.ProductRepository
@@ -24,6 +25,10 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
 
     override fun onCleared() {
         super.onCleared()
+        closeNetworkConnection()
+    }
+
+    fun closeNetworkConnection() {
         repository.closeNetworkConnection()
     }
 
@@ -91,7 +96,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
     fun getPercentageDifferenceOfPrices(productDetailResponse: ProductDetailResponse): String {
         val currentPrice = getCurrentPrice(productDetailResponse)
         val previousPrice = getPreviousPrice(productDetailResponse)
-        val percentage = (previousPrice * 100) / currentPrice
+        val percentage = ((previousPrice * 100) / currentPrice).round(2)
         return if (currentPrice >= previousPrice) "$percentage%" else "-$percentage%"
     }
 

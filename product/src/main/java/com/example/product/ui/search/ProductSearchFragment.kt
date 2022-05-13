@@ -117,8 +117,7 @@ class ProductSearchFragment : Fragment() {
 
     private fun openProductDetailsDialog() {
         if (!ProductDetailsBottomSheet.isSheetOpen) {
-            val action = ProductSearchFragmentDirections.actionProductSearchFragmentToProductDetailsBottomSheet()
-            findNavController().navigate(action)
+            ProductDetailsBottomSheet().show(childFragmentManager, ProductDetailsBottomSheet.TAG)
         }
     }
 

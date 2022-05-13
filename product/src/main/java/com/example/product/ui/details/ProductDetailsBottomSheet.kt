@@ -15,12 +15,15 @@ import com.example.product.ui.search.ProductSearchViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.example.product.data.model.UIResult
 import com.example.product.data.model.UIStateType
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
 
     companion object{
+        const val TAG = "ProductDetailsBottomSheet"
         var isSheetOpen:Boolean = false
     }
 
@@ -42,6 +45,7 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isSheetOpen = true
         observeData()
     }
 
@@ -49,6 +53,7 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
         super.onDestroy()
         isSheetOpen = false
         _binding = null
+        sharedViewModel.closeNetworkConnection()
     }
 
     private fun observeData() {
