@@ -28,7 +28,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
         repository.closeNetworkConnection()
     }
 
-    fun stopObserving() = repository.stopObserving()
+    fun stopObserving() = repository.stopObservingServerResponse()
 
     private fun listenForSearchResult() {
         repository.networkConnectionState.onEach {

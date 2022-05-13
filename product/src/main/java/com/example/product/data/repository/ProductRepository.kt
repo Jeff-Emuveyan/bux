@@ -58,7 +58,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         remoteDataSource.webSocket.addListener(listener)
     }
 
-    fun stopObserving() {
+    fun stopObservingServerResponse() {
         remoteDataSource.webSocket.removeListener(listener)
     }
 
