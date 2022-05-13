@@ -20,6 +20,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
 
     private val _uiState = MutableStateFlow(UIResult(UIStateType.DEFAULT))
     val uiState = _uiState.asStateFlow()
+    var isViewLoadingData = false
 
     init { listenForSearchResult() }
 

@@ -15,4 +15,5 @@
     <string name="previous_price">Previous Price:\t</string>
     <string name="invalid_input">Enter a valid product identifier.</string>
     <string name="germany30">Germany30</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

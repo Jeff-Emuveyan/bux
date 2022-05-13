@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.core.util.showSnackMessage
 import com.example.product.R
 import com.example.product.data.model.UIResult
 import com.example.product.data.model.UIStateType
@@ -89,28 +91,31 @@ class ProductSearchFragment : Fragment() {
     }
 
     private fun uiStateLoading() = with(binding) {
+        viewModel.isViewLoadingData = true
         button.visibility = View.INVISIBLE
         progressBar.visibility = View.VISIBLE
     }
 
     private fun uiStateNetworkError() = with(binding) {
+        viewModel.isViewLoadingData = false
         uiStateDefault()
-        Snackbar.make(requireContext(), requireView(), getText(R.string.network_error), Snackbar.LENGTH_LONG)
-            .show()
+        showSnackMessage(requireContext(), requireView(), getText(R.string.network_error).toString())
     }
 
     private fun uiStateSuccess() = with(binding) {
+        viewModel.isViewLoadingData = false
         openProductDetailsDialog()
         uiStateDefault()
     }
 
     private fun uiStateNoResult() = with(binding) {
+        viewModel.isViewLoadingData = false
         uiStateDefault()
-        Snackbar.make(requireContext(), requireView(), getText(R.string.not_found), Snackbar.LENGTH_LONG)
-            .show()
+        showSnackMessage(requireContext(), requireView(), getText(R.string.not_found).toString())
     }
 
     private fun uiStateDefault() = with(binding) {
+        viewModel.isViewLoadingData = false
         button.visibility = View.VISIBLE
         progressBar.visibility = View.INVISIBLE
     }
@@ -123,11 +128,14 @@ class ProductSearchFragment : Fragment() {
 
     private fun searchForProduct(productIdentifier: String?) {
         if (productIdentifier.isNullOrBlank() || productIdentifier.isEmpty()) {
-            Snackbar.make(requireContext(), requireView(), getText(R.string.invalid_input), Snackbar.LENGTH_LONG)
-                .show()
+            showSnackMessage(requireContext(), requireView(), getText(R.string.invalid_input).toString())
             return
         }
-        setUpUIState(UIResult(UIStateType.LOADING))
-        viewModel.searchForProduct(productIdentifier)
+        if (!viewModel.isViewLoadingData) {
+            setUpUIState(UIResult(UIStateType.LOADING))
+            viewModel.searchForProduct(productIdentifier)
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.please_wait), Toast.LENGTH_SHORT).show()
+        }
     }
 }
