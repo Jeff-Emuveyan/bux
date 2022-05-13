@@ -1,5 +1,6 @@
 package com.example.core.source.remote
 import android.content.Context
+import com.example.core.util.AUTHORIZATION
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,7 +19,9 @@ object ApiClient {
 
         httpClient.addInterceptor { chain ->
             val original = chain.request()
-            val request = original.newBuilder().build()
+
+            val builder = original.newBuilder().addHeader("Authorization", AUTHORIZATION)
+            val request = builder.build()
             chain.proceed(request)
         }
 

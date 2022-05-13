@@ -1,6 +1,5 @@
 package com.example.product.data.repository
 
-import android.util.Log
 import com.example.core.model.ConnectionStatus
 import com.example.core.model.NetworkResult
 import com.example.core.model.network.ProductDetailResponse
