@@ -58,20 +58,17 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         })
     }
 
-    private fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) = try {
-        val serverResponse = Gson().fromJson(serverResponseText, WebServerResponse::class.java)
-        val securityId = serverResponse.body?.securityId
-        when {
-            isConnectedToServer(serverResponse) -> requestForLiveProductUpdates(securityId)
-            isLiveDataStreamAvailable(serverResponse) -> {
-                emitRealTimeUpdate(productResponse, serverResponse)
+    private fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) {
+        try {
+            val serverResponse = Gson().fromJson(serverResponseText, WebServerResponse::class.java)
+            val securityId = serverResponse.body?.securityId
+            when {
+                isConnectedToServer(serverResponse) -> requestForLiveProductUpdates(securityId)
+                isLiveDataStreamAvailable(serverResponse) -> { emitRealTimeUpdate(productResponse, serverResponse) }
             }
-            else -> {
-                _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
-            }
+        } catch (e: JsonSyntaxException) {
+            _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
         }
-    } catch (e: JsonSyntaxException) {
-        _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
     }
 
     private fun requestForLiveProductUpdates(productIdentifier: String?) {
