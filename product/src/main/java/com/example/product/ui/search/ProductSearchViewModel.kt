@@ -103,4 +103,8 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
         val previousPrice = getPreviousPrice(productDetailResponse)
         return currentPrice > previousPrice
     }
+
+    fun getDescription(productDetailResponse: ProductDetailResponse): String {
+        return productDetailResponse.description ?: NOT_AVAILABLE
+    }
 }

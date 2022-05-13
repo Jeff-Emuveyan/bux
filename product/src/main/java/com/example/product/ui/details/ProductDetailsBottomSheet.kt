@@ -82,6 +82,7 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
 
         tvProductName.text = sharedViewModel.getProductName(productDetailResponse)
         tvProductIdentifier.text = sharedViewModel.getProductIdentifier(productDetailResponse)
+        tvDescription.text = sharedViewModel.getDescription(productDetailResponse)
         tvCurrentPrice.text = sharedViewModel.getCurrentPriceForDisplay(productDetailResponse)
         tvPreviousPrice.text = sharedViewModel.getPreviousPriceForDisplay(productDetailResponse)
         tvPercentage.text = sharedViewModel.getPercentageDifferenceOfPrices(productDetailResponse)
