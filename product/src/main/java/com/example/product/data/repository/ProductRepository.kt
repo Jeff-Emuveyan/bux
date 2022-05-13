@@ -32,9 +32,11 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         }
     }
 
-    private suspend fun searchForProductUpdates(productResponse: ProductDetailResponse) {
+    private suspend fun searchForProductUpdates(productResponse: ProductDetailResponse) = try {
         observeServerResponse()
         remoteDataSource.connect()
+    } catch (e: WebSocketException) {
+        _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
     }
 
     private fun observeServerResponse() {
