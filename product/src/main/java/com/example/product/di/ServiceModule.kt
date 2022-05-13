@@ -1,5 +1,5 @@
 package com.example.product.di
-import com.example.core.model.network.ProductDetailResponse
+import com.example.core.model.response.ProductDetailResponse
 import com.example.core.source.remote.Service
 import dagger.Binds
 import dagger.Module

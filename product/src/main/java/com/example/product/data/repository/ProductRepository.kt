@@ -1,9 +1,15 @@
 package com.example.product.data.repository
 
+import android.util.Log
 import com.example.core.model.ConnectionStatus
 import com.example.core.model.NetworkResult
-import com.example.core.model.network.ProductDetailResponse
+import com.example.core.model.request.ProductDetailRequest
+import com.example.core.model.response.ProductDetailResponse
+import com.example.core.model.response.WebServerResponse
 import com.example.core.source.remote.RemoteDataSource
+import com.example.core.util.WebServerResponseType
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketAdapter
 import com.neovisionaries.ws.client.WebSocketException
@@ -16,33 +22,28 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private val _networkConnectionState = MutableStateFlow(NetworkResult(ConnectionStatus.DEFAULT))
     val networkConnectionState = _networkConnectionState.asStateFlow()
 
-    /*fun searchForProduct(productIdentifier: String) {
-        val request = ProductDetailRequest(listOf(productIdentifier), emptyList())
-        val requestAsString = Gson().toJson(request)
-        remoteDataSource.getProductDetails(requestAsString)
-    }*/
-
     suspend fun searchForProductAndUpdates(productIdentifier: String) {
         val productResponse = remoteDataSource.getProduct(productIdentifier)
         if (productResponse == null) {
             _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
         } else {
+            Log.e("JAMES", "Success: ${productResponse.toString()}")
             searchForProductUpdates(productResponse)
         }
     }
 
     private suspend fun searchForProductUpdates(productResponse: ProductDetailResponse) = try {
-        observeServerResponse()
+        observeServerResponse(productResponse)
         remoteDataSource.connect()
     } catch (e: WebSocketException) {
         _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
     }
 
-    private fun observeServerResponse() {
+    private fun observeServerResponse(productResponse: ProductDetailResponse) {
         remoteDataSource.webSocket.addListener(object : WebSocketAdapter() {
             override fun onTextMessage(websocket: WebSocket?, text: String?) {
                 super.onTextMessage(websocket, text)
-                processResponse(text)
+                processResponse(productResponse, text)
             }
 
             override fun onUnexpectedError(websocket: WebSocket?, cause: WebSocketException?) {
@@ -57,8 +58,47 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         })
     }
 
-    private fun processResponse(serverResponse: String?) {
+    private fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) = try {
+        val serverResponse = Gson().fromJson(serverResponseText, WebServerResponse::class.java)
+        val securityId = serverResponse.body?.securityId
+        when {
+            isConnectedToServer(serverResponse) -> requestForLiveProductUpdates(securityId)
+            isLiveDataStreamAvailable(serverResponse) -> {
+                emitRealTimeUpdate(productResponse, serverResponse)
+            }
+            else -> {
+                _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
+            }
+        }
+    } catch (e: JsonSyntaxException) {
+        _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
+    }
 
+    private fun requestForLiveProductUpdates(productIdentifier: String?) {
+        val request = ProductDetailRequest(listOf("trading.product.$productIdentifier"), emptyList())
+        val requestAsString = Gson().toJson(request)
+        remoteDataSource.getProductDetails(requestAsString)
+    }
+
+    private fun isConnectedToServer(serverResponse: WebServerResponse?): Boolean {
+        if (serverResponse == null) return false
+        val t = serverResponse.t
+        return t == WebServerResponseType.CONNECTED_TO_SERVER.type
+    }
+
+    private fun isLiveDataStreamAvailable(serverResponse: WebServerResponse?): Boolean {
+        if (serverResponse == null) return false
+        val t = serverResponse.t
+        return t == WebServerResponseType.LIVE_STREAM_AVAILABLE.type
+    }
+
+    private fun emitRealTimeUpdate(productResponse: ProductDetailResponse,
+                                   serverResponse: WebServerResponse?) {
+        if (serverResponse == null) return
+
+        val latestCurrentPrice = serverResponse.body?.currentPrice
+        productResponse.currentPrice?.amount = latestCurrentPrice
+        _networkConnectionState.value = NetworkResult(ConnectionStatus.DATA_AVAILABLE, productResponse)
     }
 
     fun closeNetworkConnection() = remoteDataSource.disconnect()

@@ -1,6 +1,6 @@
 package com.example.core.source.remote
 
-import com.example.core.model.network.ProductDetailResponse
+import com.example.core.model.response.ProductDetailResponse
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketException
 import kotlinx.coroutines.CoroutineDispatcher

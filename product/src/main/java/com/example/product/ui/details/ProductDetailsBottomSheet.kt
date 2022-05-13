@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.example.core.model.network.ProductDetailResponse
+import com.example.core.model.response.ProductDetailResponse
 import com.example.product.R
 import com.example.product.databinding.DialogFragmentProductDetailsBinding
 import com.example.product.ui.search.ProductSearchViewModel

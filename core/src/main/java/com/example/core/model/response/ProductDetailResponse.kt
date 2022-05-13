@@ -1,4 +1,4 @@
-package com.example.core.model.network
+package com.example.core.model.response
 
 data class ProductDetailResponse(
     val category: String?,

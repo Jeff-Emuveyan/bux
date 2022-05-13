@@ -1,6 +1,6 @@
 package com.example.core.source.remote
 
-import com.example.core.model.network.ProductDetailResponse
+import com.example.core.model.response.ProductDetailResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
