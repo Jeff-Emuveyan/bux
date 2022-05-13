@@ -1,5 +1,6 @@
 package com.example.core.source.remote
 
+import android.util.Log
 import com.example.core.model.response.ProductDetailResponse
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketException
@@ -21,8 +22,10 @@ class RemoteDataSource @Inject constructor(private val service: Service,
     }
 
     @Throws(WebSocketException::class)
-    suspend fun connect(): WebSocket = withContext(ioDispatcher) {
-        webSocket.connect()
+    suspend fun connect() = withContext(ioDispatcher) {
+        if (!webSocket.isOpen) {
+            webSocket.connect()
+        }
     }
 
     fun disconnect() {

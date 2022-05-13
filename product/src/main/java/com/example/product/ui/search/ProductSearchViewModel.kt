@@ -25,12 +25,10 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
 
     override fun onCleared() {
         super.onCleared()
-        closeNetworkConnection()
-    }
-
-    fun closeNetworkConnection() {
         repository.closeNetworkConnection()
     }
+
+    fun stopObserving() = repository.stopObserving()
 
     private fun listenForSearchResult() {
         repository.networkConnectionState.onEach {

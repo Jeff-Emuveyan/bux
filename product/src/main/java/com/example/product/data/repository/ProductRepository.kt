@@ -20,6 +20,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
 
     private val _networkConnectionState = MutableStateFlow(NetworkResult(ConnectionStatus.DEFAULT))
     val networkConnectionState = _networkConnectionState.asStateFlow()
+    private lateinit var listener: WebSocketAdapter
 
     suspend fun searchForProductAndUpdates(productIdentifier: String) {
         val productResponse = remoteDataSource.getProduct(productIdentifier)
@@ -38,7 +39,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     }
 
     private fun observeServerResponse(productResponse: ProductDetailResponse) {
-        remoteDataSource.webSocket.addListener(object : WebSocketAdapter() {
+        listener = object : WebSocketAdapter() {
             override fun onTextMessage(websocket: WebSocket?, text: String?) {
                 super.onTextMessage(websocket, text)
                 processResponse(productResponse, text)
@@ -53,7 +54,12 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
                 super.onError(websocket, cause)
                 _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
             }
-        })
+        }
+        remoteDataSource.webSocket.addListener(listener)
+    }
+
+    fun stopObserving() {
+        remoteDataSource.webSocket.removeListener(listener)
     }
 
     private fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) {

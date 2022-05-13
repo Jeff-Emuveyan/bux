@@ -53,7 +53,7 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
         super.onDestroy()
         isSheetOpen = false
         _binding = null
-        sharedViewModel.closeNetworkConnection()
+        sharedViewModel.stopObserving()
     }
 
     private fun observeData() {
