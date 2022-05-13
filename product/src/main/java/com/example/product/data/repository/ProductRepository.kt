@@ -1,5 +1,6 @@
 package com.example.product.data.repository
 
+import android.util.Log
 import com.example.core.model.ConnectionStatus
 import com.example.core.model.NetworkResult
 import com.example.core.model.request.ProductDetailRequest
@@ -22,6 +23,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private val _networkConnectionState = MutableStateFlow(NetworkResult(ConnectionStatus.DEFAULT))
     val networkConnectionState = _networkConnectionState.asStateFlow()
     private lateinit var listener: WebSocketAdapter
+    private var currentProductIdentifierShownToUser: String? = null
 
     suspend fun searchForProductAndUpdates(productIdentifier: String) {
         val productResponse = remoteDataSource.getProduct(productIdentifier)
@@ -37,7 +39,11 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
 
     private suspend fun searchForProductUpdates(productResponse: ProductDetailResponse) = try {
         observeServerResponse(productResponse)
-        remoteDataSource.connect()
+        if (remoteDataSource.isConnected()) {
+            requestForLiveProductUpdates(productResponse.securityId)
+        } else {
+            remoteDataSource.connect()
+        }
     } catch (e: WebSocketException) {
         _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
     }
@@ -46,6 +52,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         listener = object : WebSocketAdapter() {
             override fun onTextMessage(websocket: WebSocket?, text: String?) {
                 super.onTextMessage(websocket, text)
+                Log.e("JEFF", text ?: "")
                 processResponse(productResponse, text)
             }
 
@@ -82,8 +89,16 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private fun requestForLiveProductUpdates(productIdentifier: String?) {
         if (productIdentifier == null) return
 
-        val request = ProductDetailRequest(listOf("trading.product.$productIdentifier"), emptyList())
+        val subscribeList = listOf("trading.product.$productIdentifier")
+        val unSubscribeList = listOf("trading.product.$currentProductIdentifierShownToUser")
+
+        val request = if (currentProductIdentifierShownToUser == null ) {
+            ProductDetailRequest(subscribeList, emptyList())
+        } else {
+            ProductDetailRequest(subscribeList, unSubscribeList)
+        }
         val requestAsString = Gson().toJson(request)
+        Log.e("JEFF", "\n\n\n $requestAsString")
         remoteDataSource.getProductDetails(requestAsString)
     }
 
@@ -102,6 +117,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private fun emitRealTimeUpdate(productResponse: ProductDetailResponse,
                                    serverResponse: WebServerResponse?) {
         if (serverResponse == null) return
+        currentProductIdentifierShownToUser = productResponse.securityId
 
         val latestCurrentPrice = serverResponse.body?.currentPrice
         productResponse.currentPrice?.amount = latestCurrentPrice

@@ -5,6 +5,7 @@ import com.example.core.model.response.ProductDetailResponse
 import com.example.core.util.DATA_NOT_FOUND
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketException
+import com.neovisionaries.ws.client.WebSocketState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -40,4 +41,6 @@ class RemoteDataSource @Inject constructor(private val service: Service,
     fun getProductDetails(request: String) {
         webSocket.sendText(request, true)
     }
+
+    fun isConnected() = webSocket.state == WebSocketState.OPEN
 }
