@@ -10,7 +10,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.product.R
-import com.example.product.data.model.Result
+import com.example.product.data.model.UIResult
 import com.example.product.data.model.UIStateType
 import com.example.product.databinding.FragmentProductSearchBinding
 import com.example.product.ui.details.ProductDetailsBottomSheet
@@ -45,7 +45,7 @@ class ProductSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
-        setUpUIState(Result(UIStateType.DEFAULT))
+        setUpUIState(UIResult(UIStateType.DEFAULT))
         handleClicks()
     }
 
@@ -78,8 +78,8 @@ class ProductSearchFragment : Fragment() {
         }
     }
 
-    private fun setUpUIState(result: Result) {
-        when(result.type) {
+    private fun setUpUIState(UIResult: UIResult) {
+        when(UIResult.type) {
             UIStateType.LOADING -> uiStateLoading()
             UIStateType.NETWORK_ERROR -> uiStateNetworkError()
             UIStateType.SUCCESS -> uiStateSuccess()
@@ -117,18 +117,18 @@ class ProductSearchFragment : Fragment() {
 
     private fun openProductDetailsDialog() {
         if (!ProductDetailsBottomSheet.isSheetOpen) {
-        val action = ProductSearchFragmentDirections.actionProductSearchFragmentToProductDetailsBottomSheet()
-        findNavController().navigate(action)
+            val action = ProductSearchFragmentDirections.actionProductSearchFragmentToProductDetailsBottomSheet()
+            findNavController().navigate(action)
         }
     }
 
-    private fun searchForProduct(identifier: String?) {
-        if (identifier.isNullOrBlank() || identifier.isEmpty()) {
+    private fun searchForProduct(productIdentifier: String?) {
+        if (productIdentifier.isNullOrBlank() || productIdentifier.isEmpty()) {
             Snackbar.make(requireContext(), requireView(), getText(R.string.invalid_input), Snackbar.LENGTH_LONG)
                 .show()
             return
         }
-        setUpUIState(Result(UIStateType.LOADING))
-        viewModel.searchForProduct(identifier)
+        setUpUIState(UIResult(UIStateType.LOADING))
+        viewModel.searchForProduct(productIdentifier)
     }
 }

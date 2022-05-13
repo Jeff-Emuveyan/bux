@@ -13,7 +13,7 @@ import com.example.product.R
 import com.example.product.databinding.DialogFragmentProductDetailsBinding
 import com.example.product.ui.search.ProductSearchViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.example.product.data.model.Result
+import com.example.product.data.model.UIResult
 import com.example.product.data.model.UIStateType
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -57,10 +57,10 @@ class ProductDetailsBottomSheet: BottomSheetDialogFragment() {
         }.flowWithLifecycle(lifecycle).launchIn(lifecycleScope)
     }
 
-    private fun setUpUIState(result: Result) {
-        when(result.type) {
+    private fun setUpUIState(uiResult: UIResult) {
+        when(uiResult.type) {
             UIStateType.NETWORK_ERROR -> uiStateNetworkError()
-            UIStateType.SUCCESS -> uiStateSuccess(result.productDetailResponse)
+            UIStateType.SUCCESS -> uiStateSuccess(uiResult.productDetailResponse)
             else -> uiStateNetworkError()
         }
     }

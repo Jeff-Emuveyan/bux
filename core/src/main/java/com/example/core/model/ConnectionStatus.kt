@@ -1,5 +1,5 @@
 package com.example.core.model
 
 enum class ConnectionStatus {
-    CONNECTION_ESTABLISHED, DATA_AVAILABLE, CONNECTION_FAILED
+    DEFAULT, NETWORK_ERROR, DATA_AVAILABLE, NO_DATA_FOUND
 }
