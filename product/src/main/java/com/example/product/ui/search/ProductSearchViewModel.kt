@@ -94,7 +94,16 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
     fun getPercentageDifferenceOfPrices(productDetailResponse: ProductDetailResponse): String {
         val currentPrice = getCurrentPrice(productDetailResponse)
         val previousPrice = getPreviousPrice(productDetailResponse)
-        val percentage = ((previousPrice * 100) / currentPrice).round(2)
+        var percentage = 0.0
+
+        percentage = if (currentPrice > previousPrice) {
+            val increment = currentPrice - previousPrice
+            ((increment * 100) / currentPrice).round(3)
+        } else {
+            val decrement = previousPrice - currentPrice
+            ((decrement * 100) / previousPrice).round(3)
+        }
+
         return if (currentPrice >= previousPrice) "$percentage%" else "-$percentage%"
     }
 
