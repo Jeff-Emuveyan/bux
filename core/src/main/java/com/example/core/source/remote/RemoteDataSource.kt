@@ -2,6 +2,7 @@ package com.example.core.source.remote
 
 import android.util.Log
 import com.example.core.model.response.ProductDetailResponse
+import com.example.core.util.DATA_NOT_FOUND
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,10 +13,14 @@ class RemoteDataSource @Inject constructor(private val service: Service,
                                            val webSocket: WebSocket,
                                            private val ioDispatcher: CoroutineDispatcher) {
 
-    suspend fun getProduct(identifier: String): ProductDetailResponse? = withContext(ioDispatcher) {
+    suspend fun getProduct(identifier: String): Any? = withContext(ioDispatcher) {
         try {
             val result = service.getProduct(identifier)
-            if (result.isSuccessful) result.body() else null
+            when {
+                result.code() == 404 -> DATA_NOT_FOUND
+                result.isSuccessful -> result.body()
+                else -> null
+            }
         } catch (e: Exception) {
             null
         }

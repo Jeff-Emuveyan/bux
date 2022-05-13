@@ -6,6 +6,7 @@ import com.example.core.model.request.ProductDetailRequest
 import com.example.core.model.response.ProductDetailResponse
 import com.example.core.model.response.WebServerResponse
 import com.example.core.source.remote.RemoteDataSource
+import com.example.core.util.DATA_NOT_FOUND
 import com.example.core.util.WebServerResponseType
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -24,11 +25,14 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
 
     suspend fun searchForProductAndUpdates(productIdentifier: String) {
         val productResponse = remoteDataSource.getProduct(productIdentifier)
-        if (productResponse == null) {
-            _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
-        } else {
-            searchForProductUpdates(productResponse)
+        when {
+            productResponse == null -> _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
+            (productResponse is String && productResponse == DATA_NOT_FOUND) -> {
+                _networkConnectionState.value = NetworkResult(ConnectionStatus.NO_DATA_FOUND)
+            }
+            productResponse is ProductDetailResponse -> searchForProductUpdates(productResponse)
         }
+
     }
 
     private suspend fun searchForProductUpdates(productResponse: ProductDetailResponse) = try {
