@@ -15,6 +15,8 @@ import com.neovisionaries.ws.client.WebSocketAdapter
 import com.neovisionaries.ws.client.WebSocketException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
@@ -25,12 +27,15 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private var currentProductIdentifierShownToUser: String? = null
 
     suspend fun searchForProductAndLiveUpdates(productIdentifier: String) {
+        if (isTodayWeekEnd()) {
+            _networkConnectionState.value = NetworkResult(ConnectionStatus.MARKETS_ARE_CLOSED)
+            return
+        }
         val productResponse = remoteDataSource.getProduct(productIdentifier)
         when {
             productResponse == null -> _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
-            (productResponse is String && productResponse == DATA_NOT_FOUND) -> {
-                _networkConnectionState.value = NetworkResult(ConnectionStatus.NO_DATA_FOUND)
-            }
+            (productResponse is String && productResponse == DATA_NOT_FOUND) ->
+                    { _networkConnectionState.value = NetworkResult(ConnectionStatus.NO_DATA_FOUND) }
             productResponse is ProductDetailResponse -> doWork(productResponse)
         }
     }
@@ -121,4 +126,15 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     }
 
     fun closeNetworkConnection() = remoteDataSource.disconnect()
+
+    fun isTodayWeekEnd(): Boolean {
+        return getTodayDate().contains("Sat") || getTodayDate().contains("Sun")
+    }
+
+    private fun getTodayDate(): String {
+        val currentTime = System.currentTimeMillis()
+        val sdf = SimpleDateFormat("EEE MMM dd,yyyy HH:mm")
+        val resultDate = Date(currentTime)
+        return sdf.format(resultDate)
+    }
 }

@@ -40,6 +40,10 @@ internal class ProductSearchViewModelTest {
     @Test
     fun `test that viewModel can set the right ui state for the any network result from the repository` () {
         val spyViewModel = spy(viewModel)
+
+        spyViewModel.processResponse(NetworkResult(ConnectionStatus.MARKETS_ARE_CLOSED))
+        assertEquals(UIStateType.MARKETS_ARE_CLOSED, viewModel.uiState.value.type)
+
         spyViewModel.processResponse(NetworkResult(ConnectionStatus.DEFAULT))
         assertEquals(UIStateType.DEFAULT, viewModel.uiState.value.type)
 

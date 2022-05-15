@@ -42,6 +42,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
             ConnectionStatus.DEFAULT -> { _uiState.value = UIResult(UIStateType.DEFAULT) }
             ConnectionStatus.NETWORK_ERROR -> { _uiState.value = UIResult(UIStateType.NETWORK_ERROR) }
             ConnectionStatus.NO_DATA_FOUND -> { _uiState.value = UIResult(UIStateType.NO_RESULT) }
+            ConnectionStatus.MARKETS_ARE_CLOSED -> { _uiState.value = UIResult(UIStateType.MARKETS_ARE_CLOSED) }
             ConnectionStatus.DATA_AVAILABLE -> { emitAvailableData(result.productDetailResponse) }
         }
     }

@@ -16,4 +16,5 @@
     <string name="invalid_input">Enter a valid product identifier.</string>
     <string name="germany30">Germany30</string>
     <string name="please_wait">Please wait...</string>
+    <string name="markets_are_closed">Markets are temporarily closed for the weekend. Try again on work days.</string>
 </resources>

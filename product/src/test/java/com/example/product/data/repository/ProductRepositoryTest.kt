@@ -45,20 +45,26 @@ internal class ProductRepositoryTest {
     @Test
     fun `test that the repository performs the right action for each type of remoteDataSource response`():
             Unit = runBlocking {
+        val spy = spy(repository)
+        `when`(spy.isTodayWeekEnd()).thenReturn(false)
+
         `when`(remoteDataSource.getProduct(any())).thenReturn(null)
-        repository.searchForProductAndLiveUpdates("id-1")
-        assertEquals(ConnectionStatus.NETWORK_ERROR, repository.networkConnectionState.value.connectionStatus)
+        spy.searchForProductAndLiveUpdates("id-1")
+        assertEquals(ConnectionStatus.NETWORK_ERROR, spy.networkConnectionState.value.connectionStatus)
 
         `when`(remoteDataSource.getProduct(any())).thenReturn(DATA_NOT_FOUND)
-        repository.searchForProductAndLiveUpdates("id-1")
-        assertEquals(ConnectionStatus.NO_DATA_FOUND, repository.networkConnectionState.value.connectionStatus)
+        spy.searchForProductAndLiveUpdates("id-1")
+        assertEquals(ConnectionStatus.NO_DATA_FOUND, spy.networkConnectionState.value.connectionStatus)
 
         val productDetailResponse = ProductDetailResponse()
-        val spy = spy(repository)
         doNothing().`when`(spy).observeServerResponse(productDetailResponse)
         `when`(remoteDataSource.getProduct(any())).thenReturn(productDetailResponse)
         spy.searchForProductAndLiveUpdates("id-1")
         verify(spy).doWork(productDetailResponse)
+
+        `when`(spy.isTodayWeekEnd()).thenReturn(true)
+        spy.searchForProductAndLiveUpdates("id-1")
+        assertEquals(ConnectionStatus.MARKETS_ARE_CLOSED, spy.networkConnectionState.value.connectionStatus)
     }
 
     @Test

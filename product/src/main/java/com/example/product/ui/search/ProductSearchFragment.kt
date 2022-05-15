@@ -86,6 +86,7 @@ class ProductSearchFragment : Fragment() {
             UIStateType.NETWORK_ERROR -> uiStateNetworkError()
             UIStateType.SUCCESS -> uiStateSuccess()
             UIStateType.NO_RESULT -> uiStateNoResult()
+            UIStateType.MARKETS_ARE_CLOSED -> uiStateMarketsAreClosed()
             UIStateType.DEFAULT -> uiStateDefault()
         }
     }
@@ -118,6 +119,12 @@ class ProductSearchFragment : Fragment() {
         viewModel.isViewLoadingData = false
         button.visibility = View.VISIBLE
         progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun uiStateMarketsAreClosed() {
+        viewModel.isViewLoadingData = false
+        uiStateDefault()
+        showSnackMessage(requireContext(), requireView(), getText(R.string.markets_are_closed).toString())
     }
 
     private fun openProductDetailsDialog() {
