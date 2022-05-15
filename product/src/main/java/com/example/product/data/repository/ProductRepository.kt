@@ -1,6 +1,5 @@
 package com.example.product.data.repository
 
-import android.util.Log
 import com.example.core.model.ConnectionStatus
 import com.example.core.model.NetworkResult
 import com.example.core.model.request.ProductDetailRequest
@@ -25,19 +24,18 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
     private lateinit var listener: WebSocketAdapter
     private var currentProductIdentifierShownToUser: String? = null
 
-    suspend fun searchForProductAndUpdates(productIdentifier: String) {
+    suspend fun searchForProductAndLiveUpdates(productIdentifier: String) {
         val productResponse = remoteDataSource.getProduct(productIdentifier)
         when {
             productResponse == null -> _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
             (productResponse is String && productResponse == DATA_NOT_FOUND) -> {
                 _networkConnectionState.value = NetworkResult(ConnectionStatus.NO_DATA_FOUND)
             }
-            productResponse is ProductDetailResponse -> searchForProductUpdates(productResponse)
+            productResponse is ProductDetailResponse -> doWork(productResponse)
         }
-
     }
 
-    private suspend fun searchForProductUpdates(productResponse: ProductDetailResponse) = try {
+    suspend fun doWork(productResponse: ProductDetailResponse) = try {
         observeServerResponse(productResponse)
         if (remoteDataSource.isConnected()) {
             requestForLiveProductUpdates(productResponse.securityId)
@@ -48,11 +46,10 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         _networkConnectionState.value = NetworkResult(ConnectionStatus.NETWORK_ERROR)
     }
 
-    private fun observeServerResponse(productResponse: ProductDetailResponse) {
+    fun observeServerResponse(productResponse: ProductDetailResponse) {
         listener = object : WebSocketAdapter() {
             override fun onTextMessage(websocket: WebSocket?, text: String?) {
                 super.onTextMessage(websocket, text)
-                Log.e("JEFF", text ?: "")
                 processResponse(productResponse, text)
             }
 
@@ -73,7 +70,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         remoteDataSource.webSocket.removeListener(listener)
     }
 
-    private fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) {
+    fun processResponse(productResponse: ProductDetailResponse, serverResponseText: String?) {
         try {
             val serverResponse = Gson().fromJson(serverResponseText, WebServerResponse::class.java)
             val productIdentifier = productResponse.securityId
@@ -86,7 +83,7 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
         }
     }
 
-    private fun requestForLiveProductUpdates(productIdentifier: String?) {
+    fun requestForLiveProductUpdates(productIdentifier: String?) {
         if (productIdentifier == null) return
 
         val subscribeList = listOf("trading.product.$productIdentifier")
@@ -98,23 +95,22 @@ class ProductRepository @Inject constructor(private val remoteDataSource: Remote
             ProductDetailRequest(subscribeList, unSubscribeList)
         }
         val requestAsString = Gson().toJson(request)
-        Log.e("JEFF", "\n\n\n $requestAsString")
         remoteDataSource.getProductDetails(requestAsString)
     }
 
-    private fun isConnectedToServer(serverResponse: WebServerResponse?): Boolean {
+    fun isConnectedToServer(serverResponse: WebServerResponse?): Boolean {
         if (serverResponse == null) return false
         val t = serverResponse.t
         return t == WebServerResponseType.CONNECTED_TO_SERVER.type
     }
 
-    private fun isLiveDataStreamAvailable(serverResponse: WebServerResponse?): Boolean {
+    fun isLiveDataStreamAvailable(serverResponse: WebServerResponse?): Boolean {
         if (serverResponse == null) return false
         val t = serverResponse.t
         return t == WebServerResponseType.LIVE_STREAM_AVAILABLE.type
     }
 
-    private fun emitRealTimeUpdate(productResponse: ProductDetailResponse,
+    fun emitRealTimeUpdate(productResponse: ProductDetailResponse,
                                    serverResponse: WebServerResponse?) {
         if (serverResponse == null) return
         currentProductIdentifierShownToUser = productResponse.securityId

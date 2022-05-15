@@ -37,7 +37,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
         }.launchIn(viewModelScope)
     }
 
-    private fun processResponse(result: NetworkResult) {
+    fun processResponse(result: NetworkResult) {
         when (result.connectionStatus) {
             ConnectionStatus.DEFAULT -> { _uiState.value = UIResult(UIStateType.DEFAULT) }
             ConnectionStatus.NETWORK_ERROR -> { _uiState.value = UIResult(UIStateType.NETWORK_ERROR) }
@@ -46,7 +46,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
         }
     }
 
-    private fun emitAvailableData(productDetailResponse: ProductDetailResponse?) {
+    fun emitAvailableData(productDetailResponse: ProductDetailResponse?) {
         if (productDetailResponse == null) {
             _uiState.value = UIResult(UIStateType.NETWORK_ERROR)
         } else {
@@ -54,22 +54,22 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
         }
     }
 
-    private fun getCurrency(productDetailResponse: ProductDetailResponse): String {
+    fun getCurrency(productDetailResponse: ProductDetailResponse): String {
         return productDetailResponse.quoteCurrency ?: ""
     }
 
-    private fun getCurrentPrice(productDetailResponse: ProductDetailResponse): Double {
+    fun getCurrentPrice(productDetailResponse: ProductDetailResponse): Double {
         val amountAsString = productDetailResponse.currentPrice?.amount
         return amountAsString?.toDouble() ?: 0.0
     }
 
-    private fun getPreviousPrice(productDetailResponse: ProductDetailResponse): Double {
+    fun getPreviousPrice(productDetailResponse: ProductDetailResponse): Double {
         val amountAsString = productDetailResponse.closingPrice?.amount
         return amountAsString?.toDouble() ?: 0.0
     }
 
     fun searchForProduct(productIdentifier: String) = viewModelScope.launch {
-        repository.searchForProductAndUpdates(productIdentifier)
+        repository.searchForProductAndLiveUpdates(productIdentifier)
     }
 
     fun getProductName(productDetailResponse: ProductDetailResponse): String {
@@ -99,7 +99,7 @@ class ProductSearchViewModel @Inject constructor(private val repository: Product
 
         percentage = if (currentPrice > previousPrice) {
             val increment = currentPrice - previousPrice
-            ((increment * 100) / currentPrice).round(3)
+            ((increment * 100) / previousPrice).round(3)
         } else {
             val decrement = previousPrice - currentPrice
             ((decrement * 100) / previousPrice).round(3)

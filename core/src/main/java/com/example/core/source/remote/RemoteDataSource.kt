@@ -1,7 +1,5 @@
 package com.example.core.source.remote
 
-import android.util.Log
-import com.example.core.model.response.ProductDetailResponse
 import com.example.core.util.DATA_NOT_FOUND
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketException
