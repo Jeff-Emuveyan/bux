@@ -31,3 +31,6 @@ view the real time updates of these products.
 
 ## Architecture
 MVVM
+
+## Unit tests
+Unit tests can be found in the ```product``` and ```core``` module.
