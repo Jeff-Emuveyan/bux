@@ -35,4 +35,19 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
+  lane :beta do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+
+    firebase_app_distribution(
+      app: "1:540432356383:android:d372922f29544a7f2d712a",
+      testers: "veyanjeff@gmail.com",
+      firebase_cli_token: "1//03n1urHwXOjQcCgYIARAAGAMSNwF-L9IrLnsoN6XQlvX7YxHBcRCrt82M-4h73C4i42qCSHi0cjweCpz3037q2Q5BrkHBi8yTJSQ",
+      release_notes: "Initial push to App Distribution"
+    )
+  end
+
 end
