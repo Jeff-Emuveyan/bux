@@ -6,6 +6,7 @@ import com.bellogatecaliphate.core.model.response.ProductDetailResponse
 import com.bellogatecaliphate.core.model.response.WebServerResponse
 import com.bellogatecaliphate.core.source.remote.RemoteDataSource
 import com.bellogatecaliphate.core.util.DATA_NOT_FOUND
+import com.bellogatecaliphate.product.data.repository.ProductRepository
 import com.example.product.CONNECTED_TO_SEVER_SUCCESSFULLY_JSON
 import com.example.product.DATA_AVAILABLE_JSON
 import com.google.gson.Gson
