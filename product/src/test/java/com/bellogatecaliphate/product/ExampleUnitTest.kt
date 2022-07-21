@@ -1,4 +1,4 @@
-package com.example.product
+package com.bellogatecaliphate.product
 
 import org.junit.Test
 

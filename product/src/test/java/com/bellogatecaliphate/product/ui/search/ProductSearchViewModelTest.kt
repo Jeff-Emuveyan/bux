@@ -1,10 +1,10 @@
-package com.example.product.ui.search
+package com.bellogatecaliphate.product.ui.search
 
 import com.bellogatecaliphate.core.model.ConnectionStatus
 import com.bellogatecaliphate.core.model.NetworkResult
 import com.bellogatecaliphate.core.model.response.ProductDetailResponse
-import com.example.product.data.model.UIStateType
-import com.example.product.data.repository.ProductRepository
+import com.bellogatecaliphate.product.data.model.UIStateType
+import com.bellogatecaliphate.product.data.repository.ProductRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
