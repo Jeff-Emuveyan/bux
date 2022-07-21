@@ -1,6 +1,6 @@
-package com.example.core.source.remote
+package com.bellogatecaliphate.core.source.remote
 
-import com.example.core.util.DATA_NOT_FOUND
+import com.bellogatecaliphate.core.util.DATA_NOT_FOUND
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketException
 import com.neovisionaries.ws.client.WebSocketState

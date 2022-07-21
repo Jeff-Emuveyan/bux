@@ -1,4 +1,4 @@
-package com.example.core.model.response
+package com.bellogatecaliphate.core.model.response
 
 data class LocalizedMainTag(
     val id: String?,

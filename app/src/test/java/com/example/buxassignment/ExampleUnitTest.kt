@@ -1,4 +1,4 @@
-package com.example.buxassignment
+package com.bellogatecaliphate.buxassignment
 
 import org.junit.Test
 

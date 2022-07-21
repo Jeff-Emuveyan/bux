@@ -1,6 +1,6 @@
-package com.example.core.source.remote
+package com.bellogatecaliphate.core.source.remote
 import android.content.Context
-import com.example.core.util.AUTHORIZATION
+import com.bellogatecaliphate.core.util.AUTHORIZATION
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

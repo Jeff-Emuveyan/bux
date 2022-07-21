@@ -1,4 +1,4 @@
-package com.example.product.di
+package com.bellogatecaliphate.product.di
 
 import dagger.Module
 import dagger.Provides

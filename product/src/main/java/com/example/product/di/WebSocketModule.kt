@@ -1,6 +1,6 @@
-package com.example.product.di
+package com.bellogatecaliphate.product.di
 
-import com.example.core.util.AUTHORIZATION
+import com.bellogatecaliphate.core.util.AUTHORIZATION
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketFactory
 import dagger.Module

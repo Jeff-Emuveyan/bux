@@ -1,4 +1,4 @@
-package com.example.core.util
+package com.bellogatecaliphate.core.util
 
 import android.content.Context
 import android.view.View

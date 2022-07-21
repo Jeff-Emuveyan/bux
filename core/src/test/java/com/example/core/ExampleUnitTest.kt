@@ -1,4 +1,4 @@
-package com.example.core
+package com.bellogatecaliphate.core
 
 import org.junit.Test
 

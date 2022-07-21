@@ -1,4 +1,4 @@
-package com.example.core.util
+package com.bellogatecaliphate.core.util
 
 const val AUTHORIZATION = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyZWZyZXNoYWJsZSI6ZmFsc2UsInN1Y" +
         "iI6ImJiMGNkYTJiLWExMGUtNGVkMy1hZDVhLTBmODJiNGMxNTJjNCIsImF1ZCI6ImJldGEuZ2V0YnV4LmNvbSIs" +

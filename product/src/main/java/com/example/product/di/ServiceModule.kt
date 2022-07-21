@@ -1,6 +1,6 @@
-package com.example.product.di
-import com.example.core.model.response.ProductDetailResponse
-import com.example.core.source.remote.Service
+package com.bellogatecaliphate.product.di
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.core.source.remote.Service
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

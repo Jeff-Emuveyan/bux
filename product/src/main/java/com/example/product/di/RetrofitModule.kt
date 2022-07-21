@@ -1,7 +1,7 @@
-package com.example.product.di
+package com.bellogatecaliphate.product.di
 
 import android.content.Context
-import com.example.core.source.remote.ApiClient
+import com.bellogatecaliphate.core.source.remote.ApiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

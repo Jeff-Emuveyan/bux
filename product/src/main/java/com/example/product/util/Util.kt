@@ -1,4 +1,4 @@
-package com.example.product.util
+package com.bellogatecaliphate.product.util
 
 import android.widget.LinearLayout
 

@@ -1,6 +1,6 @@
-package com.example.core.model
+package com.bellogatecaliphate.core.model
 
-import com.example.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
 
 class NetworkResult(val connectionStatus: ConnectionStatus,
                     val productDetailResponse: ProductDetailResponse? = null)

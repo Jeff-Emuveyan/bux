@@ -1,8 +1,8 @@
 package com.example.product.ui.search
 
-import com.example.core.model.ConnectionStatus
-import com.example.core.model.NetworkResult
-import com.example.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.core.model.ConnectionStatus
+import com.bellogatecaliphate.core.model.NetworkResult
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
 import com.example.product.data.model.UIStateType
 import com.example.product.data.repository.ProductRepository
 import kotlinx.coroutines.Dispatchers

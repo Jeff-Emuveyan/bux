@@ -1,7 +1,7 @@
-package com.example.core.source.remote
+package com.bellogatecaliphate.core.source.remote
 
-import com.example.core.model.response.ProductDetailResponse
-import com.example.core.util.DATA_NOT_FOUND
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.core.util.DATA_NOT_FOUND
 import com.neovisionaries.ws.client.WebSocket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

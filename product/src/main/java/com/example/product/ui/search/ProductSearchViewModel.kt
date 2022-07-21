@@ -1,15 +1,15 @@
-package com.example.product.ui.search
+package com.bellogatecaliphate.product.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.model.ConnectionStatus
-import com.example.core.model.NetworkResult
-import com.example.core.model.response.ProductDetailResponse
-import com.example.core.util.round
-import com.example.product.data.model.UIResult
-import com.example.product.data.model.UIStateType
-import com.example.product.data.repository.ProductRepository
-import com.example.product.util.NOT_AVAILABLE
+import com.bellogatecaliphate.core.model.ConnectionStatus
+import com.bellogatecaliphate.core.model.NetworkResult
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.core.util.round
+import com.bellogatecaliphate.product.data.model.UIResult
+import com.bellogatecaliphate.product.data.model.UIStateType
+import com.bellogatecaliphate.product.data.repository.ProductRepository
+import com.bellogatecaliphate.product.util.NOT_AVAILABLE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

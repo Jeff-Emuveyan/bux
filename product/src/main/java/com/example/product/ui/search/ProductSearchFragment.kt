@@ -1,4 +1,4 @@
-package com.example.product.ui.search
+package com.bellogatecaliphate.product.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,15 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.core.util.showSnackMessage
-import com.example.product.R
-import com.example.product.data.model.UIResult
-import com.example.product.data.model.UIStateType
-import com.example.product.databinding.FragmentProductSearchBinding
-import com.example.product.ui.details.ProductDetailsBottomSheet
-import com.example.product.util.PRODUCT_IDENTIFIER_EURO_US
-import com.example.product.util.PRODUCT_IDENTIFIER_GERMANY30
-import com.example.product.util.PRODUCT_IDENTIFIER_US500
+import com.bellogatecaliphate.core.util.showSnackMessage
+import com.bellogatecaliphate.product.R
+import com.bellogatecaliphate.product.data.model.UIResult
+import com.bellogatecaliphate.product.data.model.UIStateType
+import com.bellogatecaliphate.product.databinding.FragmentProductSearchBinding
+import com.bellogatecaliphate.product.ui.details.ProductDetailsBottomSheet
+import com.bellogatecaliphate.product.util.PRODUCT_IDENTIFIER_EURO_US
+import com.bellogatecaliphate.product.util.PRODUCT_IDENTIFIER_GERMANY30
+import com.bellogatecaliphate.product.util.PRODUCT_IDENTIFIER_US500
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn

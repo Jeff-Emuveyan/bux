@@ -1,4 +1,4 @@
-package com.example.product.ui.details
+package com.bellogatecaliphate.product.ui.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.example.core.model.response.ProductDetailResponse
-import com.example.product.R
-import com.example.product.databinding.DialogFragmentProductDetailsBinding
-import com.example.product.ui.search.ProductSearchViewModel
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.product.R
+import com.bellogatecaliphate.product.databinding.DialogFragmentProductDetailsBinding
+import com.bellogatecaliphate.product.ui.search.ProductSearchViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.example.product.data.model.UIResult
-import com.example.product.data.model.UIStateType
+import com.bellogatecaliphate.product.data.model.UIResult
+import com.bellogatecaliphate.product.data.model.UIStateType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

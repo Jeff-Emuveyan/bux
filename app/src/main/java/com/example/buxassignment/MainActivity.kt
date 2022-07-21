@@ -1,4 +1,4 @@
-package com.example.buxassignment
+package com.bellogatecaliphate.buxassignment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

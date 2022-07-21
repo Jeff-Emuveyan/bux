@@ -1,11 +1,11 @@
 package com.example.product.data.repository
 
-import com.example.core.model.ConnectionStatus
-import com.example.core.model.request.ProductDetailRequest
-import com.example.core.model.response.ProductDetailResponse
-import com.example.core.model.response.WebServerResponse
-import com.example.core.source.remote.RemoteDataSource
-import com.example.core.util.DATA_NOT_FOUND
+import com.bellogatecaliphate.core.model.ConnectionStatus
+import com.bellogatecaliphate.core.model.request.ProductDetailRequest
+import com.bellogatecaliphate.core.model.response.ProductDetailResponse
+import com.bellogatecaliphate.core.model.response.WebServerResponse
+import com.bellogatecaliphate.core.source.remote.RemoteDataSource
+import com.bellogatecaliphate.core.util.DATA_NOT_FOUND
 import com.example.product.CONNECTED_TO_SEVER_SUCCESSFULLY_JSON
 import com.example.product.DATA_AVAILABLE_JSON
 import com.google.gson.Gson
