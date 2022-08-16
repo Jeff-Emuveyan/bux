@@ -36,7 +36,7 @@ platform :android do
     upload_to_play_store
   end
 
-  lane :beta do
+  lane :push_to_play_store do
     gradle(
       task: 'assemble',
       build_type: 'Release'
