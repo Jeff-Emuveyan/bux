@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:540432356383:android:d372922f29544a7f2d712a",
+        "mobilesdk_app_id": "1:540432356383:android:6800d1c01c33aa102d712a",
         "android_client_info": {
-          "package_name": "com.example.buxassignment"
+          "package_name": "com.bellogatecaliphate.buxassignment"
         }
       },
       "oauth_client": [
