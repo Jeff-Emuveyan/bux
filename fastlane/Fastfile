@@ -16,52 +16,93 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
+
+   # Watch this youtube video https://www.youtube.com/watch?v=zYBYegeTNwY
+
+   # This simplest thing to do with fastlane is to run gradle tasks.
+   # In the first example below, we perform the gradle task to run all unit tests.
+   # (I named this lane runAllUnitTests. I could have named it anything I wanted).
+   # If I wanted to run all instrumented tests, I can simple replace the task command with:
+   # gradle(task: "connectedTest")
+   # For more gradle info, see https://docs.fastlane.tools/actions/gradle/
+
+  desc "Runs all the unit tests"
+  lane :runAllUnitTests do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
-
+  desc "In this lane, we want to build the app and upload to Firebase app distribution."
   lane :upload_to_firebase_app_distribution do
+
+    # Build the app:
     gradle(
       task: 'assemble',
       build_type: 'Release'
     )
 
+    # Upload to app distribution
+    # Params: (1) app - Your app's Firebase App ID. You can find the App ID in the Firebase console.
+    # This command below will fetch the result build from the gradle command you wrote above and upload it to Firebase
+    # App Distribution.
+    # Note: Before running this command you need to authenticate with Firebase so that Fastlane can access
+    # your Firebase account, locate the right Android project using the app ID you provide, and upload the
+    # apk to the App Distribution Dashboard.
+    # There are two way to authenticate. We use the 'Sign in using the Firebase CLI' method.
+    # In this method, we need to download and install Firebase CLI command line tool.
+    # You can get it here: https://firebase.google.com/docs/cli#sign-in-test-cli
+    # MAKE SURE YOU SCROLL UP THE WEB PAGE TO SEE THE DOWNLOAD OPTIONS.
+    # After you have downloaded and install, open it and type:
+    # firebase login
+    # This will open your chrome and prompt you to login to Firebase. After you have done that, you
+    # will see a success message displayed on your chrome.
+    # This means you can now use fastlane to access Firebase.
+    # So go ahead and run your lane command to upload_to_firebase_app_distribution!
     firebase_app_distribution(
-      app: "1:540432356383:android:d372922f29544a7f2d712a",
+      app: "1:540432356383:android:6800d1c01c33aa102d712a",
       testers: "veyanjeff@gmail.com",
-      firebase_cli_token: "1//03n1urHwXOjQcCgYIARAAGAMSNwF-L9IrLnsoN6XQlvX7YxHBcRCrt82M-4h73C4i42qCSHi0cjweCpz3037q2Q5BrkHBi8yTJSQ",
-      release_notes: "Initial push to App Distribution"
+      release_notes: "Sunday push"
     )
   end
 
-    lane :upload_to_play_store_internal_test do
-      # ...
-      gradle(
-        task: "clean bundleRelease",
-        properties: {
-                  "android.injected.signing.store.file" => "key.jks",
-                  "android.injected.signing.store.password" => "123456",
-                  "android.injected.signing.key.alias" => "key0",
-                  "android.injected.signing.key.password" => "123456",
-                }
-      )
-      upload_to_play_store(track: 'internal')
-      # ...
-    end
+  desc "In this lane, we want to build the app (signed app) and upload to Play store internal test track"
+  lane :upload_to_play_store_internal_test do
+
+    # Build the app:
+    gradle(
+      task: "clean bundleRelease",
+      properties: {
+          "android.injected.signing.store.file" => "key.jks",
+          "android.injected.signing.store.password" => "123456",
+          "android.injected.signing.key.alias" => "key0",
+          "android.injected.signing.key.password" => "123456",
+        }
+    )
+
+    # This command below will fetch the result build from the gradle command you wrote above and upload it to
+    # Play store internal test track.
+    # Note: Below are other fastlane track names and their equivalent on Play store Test Tracks:
+    # https://stackoverflow.com/questions/61354027/google-play-store-alpha-and-beta-tracks
+    # 1) internal = Internal testing
+    # 2) alpha = Closed testing
+    # 3) beta = Open testing
+    # 4) production = GO LIVE!!! (Actually, if you don't specify any test track, the default is production aka You want to go live!)
+    # (To get a list of all available Play store options, run: fastlane action upload_to_play_store)
+    upload_to_play_store(track: 'internal')
+  end
+
+  desc "In this lane, we want to build the app (signed app) and upload to Play store production"
+  lane :deploy do
+    # Build the app:
+    gradle(
+      task: "clean bundleRelease",
+      properties: {
+          "android.injected.signing.store.file" => "key.jks",
+          "android.injected.signing.store.password" => "123456",
+          "android.injected.signing.key.alias" => "key0",
+          "android.injected.signing.key.password" => "123456",
+        }
+    )
+    upload_to_play_store
+  end
+
 end
