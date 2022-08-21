@@ -88,6 +88,12 @@ platform :android do
     # 4) production = GO LIVE!!! (Actually, if you don't specify any test track, the default is production aka You want to go live!)
     # (To get a list of all available Play store options, run: fastlane action upload_to_play_store)
     upload_to_play_store(track: 'internal')
+
+    # Note: Unlike app distribution, You can only upload a version ONCE to Play store.
+    # So if you have uploaded a version to internal test track (or any other track),
+    # you cannot upload that same version to production or any other test track unless you 'promote'
+    # the existing build on Play Console or increase the version code and upload again.
+    # You will get this error if you try: 'APK specifies a version code that has already been used.'
   end
 
   desc "In this lane, we want to build the app (signed app) and upload to Play store production"
@@ -102,6 +108,11 @@ platform :android do
           "android.injected.signing.key.password" => "123456",
         }
     )
+    # Note: Unlike app distribution, You can only upload a version ONCE to Play store.
+    # So if you have uploaded a version to internal test track (or any other track),
+    # you cannot upload that same version to production or any other test track unless you 'promote'
+    # the existing build on Play Console or increase the version code and upload again.
+    # You will get this error if you try: 'APK specifies a version code that has already been used.'
     upload_to_play_store
   end
 
