@@ -91,7 +91,7 @@ platform :android do
   end
 
   desc "In this lane, we want to build the app (signed app) and upload to Play store production"
-  lane :deploy do
+  lane :upload_to_play_store_production do
     # Build the app:
     gradle(
       task: "clean bundleRelease",
