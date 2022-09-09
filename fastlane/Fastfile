@@ -116,4 +116,21 @@ platform :android do
     upload_to_play_store
   end
 
+  desc "In this lane, we want to automate a complete release process. We will do the following:
+  1) Build a release build from master branch and upload to Play Store.
+  2) Tag master branch
+  3) Push the new tag to remote
+  4) Create PR to merge master into development branch"
+  lane :go_live do
+    UI.header "GO LIVE BEGINS!"
+
+    # Build the app and upload
+    upload_to_play_store_internal_test
+
+    UI.success "Successfully uploaded the application!"
+
+    # Tag
+
+  end
+
 end
