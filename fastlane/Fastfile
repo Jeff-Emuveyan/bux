@@ -38,6 +38,9 @@ platform :android do
         2) version_name (Int): the version of the app.
         3) release_now: Determines if the build should be uploaded immediately (LOL, This is just for testing purpose)
         (More info on params can be found here: https://docs.fastlane.tools/advanced/lanes/)
+
+        Its good practice to write a documentation like we did above about the kind of params that can be
+        passed to the lane. Else the lane user will have to read through the code to know which params can be passed.
        "
 
   lane :upload_to_firebase_app_distribution do |options|
