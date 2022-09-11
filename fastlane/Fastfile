@@ -25,14 +25,38 @@ platform :android do
    # If I wanted to run all instrumented tests, I can simple replace the task command with:
    # gradle(task: "connectedTest")
    # For more gradle info, see https://docs.fastlane.tools/actions/gradle/
+   # NOTE that the programming language used in fastlane is Ruby.
 
   desc "Runs all the unit tests"
   lane :runAllUnitTests do
     gradle(task: "test")
   end
 
-  desc "In this lane, we want to build the app and upload to Firebase app distribution."
-  lane :upload_to_firebase_app_distribution do
+  desc "In this lane, we want to build the app and upload to Firebase app distribution.
+        params: We added some params for learning sake:
+        1) message (String): This is the brief message you want to add concerning the build.
+        2) version_name (Int): the version of the app.
+        3) release_now: Determines if the build should be uploaded immediately (LOL, This is just for testing purpose)
+        (More info on params can be found here: https://docs.fastlane.tools/advanced/lanes/)
+       "
+
+  lane :upload_to_firebase_app_distribution do |options|
+    release_message = options[:message] # fastlane will infer this to be a string
+    version_name = options[:version_name] # fastlane will infer this to be an string
+    release_now = options[:release_now] # fastlane will infer this to be a boolean
+
+    if version_name.nil? || version_name.empty?
+       version_name = android_get_version_name # we are using a library to get this value (https://github.com/beplus/fastlane-plugin-versioning_android)
+    end
+
+    if release_message.nil? || release_message.empty?
+       release_message = "Default release message for app of " + " v" + version_name
+    end
+
+    if release_now == false
+        UI.user_error!("Jeff! You intentionally cancelled this release!")
+        next # skip doing the rest of this lane. This is the same as exiting from the lane.
+    end
 
     # Build the app:
     gradle(
@@ -60,8 +84,10 @@ platform :android do
     firebase_app_distribution(
       app: "1:540432356383:android:6800d1c01c33aa102d712a",
       testers: "veyanjeff@gmail.com",
-      release_notes: "Sunday push"
+      release_notes: release_message
     )
+
+    UI.success "Upload completed Jeff!!!"
   end
 
   desc "In this lane, we want to build the app (signed app) and upload to Play store internal test track"
@@ -128,9 +154,6 @@ platform :android do
     upload_to_play_store_internal_test
 
     UI.success "Successfully uploaded the application!"
-
-    # Tag
-
   end
 
 end
