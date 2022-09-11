@@ -1,0 +1,164 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+   # Watch this youtube video https://www.youtube.com/watch?v=zYBYegeTNwY
+
+   # This simplest thing to do with fastlane is to run gradle tasks.
+   # In the first example below, we perform the gradle task to run all unit tests.
+   # (I named this lane runAllUnitTests. I could have named it anything I wanted).
+   # If I wanted to run all instrumented tests, I can simple replace the task command with:
+   # gradle(task: "connectedTest")
+   # For more gradle info, see https://docs.fastlane.tools/actions/gradle/
+   # NOTE that the programming language used in fastlane is Ruby.
+
+  desc "Runs all the unit tests"
+  lane :runAllUnitTests do
+    gradle(task: "test")
+  end
+
+  desc "In this lane, we want to build the app and upload to Firebase app distribution.
+        params: We added some params for learning sake:
+        1) message (String): This is the brief message you want to add concerning the build.
+        2) version_name (Int): the version of the app.
+        3) release_now: Determines if the build should be uploaded immediately (LOL, This is just for testing purpose)
+        (More info on params can be found here: https://docs.fastlane.tools/advanced/lanes/)
+
+        Its good practice to write a documentation like we did above about the kind of params that can be
+        passed to the lane. Else the lane user will have to read through the code to know which params can be passed.
+       "
+
+  lane :upload_to_firebase_app_distribution do |options|
+    release_message = options[:message] # fastlane will infer this to be a string
+    version_name = options[:version_name] # fastlane will infer this to be an string
+    release_now = options[:release_now] # fastlane will infer this to be a boolean
+
+    if version_name.nil? || version_name.empty?
+       version_name = android_get_version_name # we are using a library to get this value (https://github.com/beplus/fastlane-plugin-versioning_android)
+    end
+
+    if release_message.nil? || release_message.empty?
+       release_message = "Default release message for app of " + " v" + version_name
+    else
+       release_message = release_message + " v" + version_name
+    end
+
+    if release_now == false
+        UI.user_error!("Jeff! You intentionally cancelled this release!")
+        next # skip doing the rest of this lane. This is the same as exiting from the lane.
+    end
+
+    # Build the app:
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+
+    # Upload to app distribution
+    # Params: (1) app - Your app's Firebase App ID. You can find the App ID in the Firebase console.
+    # This command below will fetch the result build from the gradle command you wrote above and upload it to Firebase
+    # App Distribution.
+    # Note: Before running this command you need to authenticate with Firebase so that Fastlane can access
+    # your Firebase account, locate the right Android project using the app ID you provide, and upload the
+    # apk to the App Distribution Dashboard.
+    # There are two way to authenticate. We use the 'Sign in using the Firebase CLI' method.
+    # In this method, we need to download and install Firebase CLI command line tool.
+    # You can get it here: https://firebase.google.com/docs/cli#sign-in-test-cli
+    # MAKE SURE YOU SCROLL UP THE WEB PAGE TO SEE THE DOWNLOAD OPTIONS.
+    # After you have downloaded and install, open it and type:
+    # firebase login
+    # This will open your chrome and prompt you to login to Firebase. After you have done that, you
+    # will see a success message displayed on your chrome.
+    # This means you can now use fastlane to access Firebase.
+    # So go ahead and run your lane command to upload_to_firebase_app_distribution!
+    firebase_app_distribution(
+      app: "1:540432356383:android:6800d1c01c33aa102d712a",
+      testers: "veyanjeff@gmail.com",
+      release_notes: release_message
+    )
+
+    UI.success "Upload completed Jeff!!!"
+  end
+
+  desc "In this lane, we want to build the app (signed app) and upload to Play store internal test track"
+  lane :upload_to_play_store_internal_test do
+
+    # Build the app:
+    gradle(
+      task: "clean bundleRelease",
+      properties: {
+          "android.injected.signing.store.file" => "key.jks",
+          "android.injected.signing.store.password" => "123456",
+          "android.injected.signing.key.alias" => "key0",
+          "android.injected.signing.key.password" => "123456",
+        }
+    )
+
+    # This command below will fetch the result build from the gradle command you wrote above and upload it to
+    # Play store internal test track.
+    # Note: Below are other fastlane track names and their equivalent on Play store Test Tracks:
+    # https://stackoverflow.com/questions/61354027/google-play-store-alpha-and-beta-tracks
+    # 1) internal = Internal testing
+    # 2) alpha = Closed testing
+    # 3) beta = Open testing
+    # 4) production = GO LIVE!!! (Actually, if you don't specify any test track, the default is production aka You want to go live!)
+    # (To get a list of all available Play store options, run: fastlane action upload_to_play_store)
+    upload_to_play_store(track: 'internal')
+
+    # Note: Unlike app distribution, You can only upload a version ONCE to Play store.
+    # So if you have uploaded a version to internal test track (or any other track),
+    # you cannot upload that same version to production or any other test track unless you 'promote'
+    # the existing build on Play Console or increase the version code and upload again.
+    # You will get this error if you try: 'APK specifies a version code that has already been used.'
+  end
+
+  desc "In this lane, we want to build the app (signed app) and upload to Play store production"
+  lane :upload_to_play_store_production do
+    # Build the app:
+    gradle(
+      task: "clean bundleRelease",
+      properties: {
+          "android.injected.signing.store.file" => "key.jks",
+          "android.injected.signing.store.password" => "123456",
+          "android.injected.signing.key.alias" => "key0",
+          "android.injected.signing.key.password" => "123456",
+        }
+    )
+    # Note: Unlike app distribution, You can only upload a version ONCE to Play store.
+    # So if you have uploaded a version to internal test track (or any other track),
+    # you cannot upload that same version to production or any other test track unless you 'promote'
+    # the existing build on Play Console or increase the version code and upload again.
+    # You will get this error if you try: 'APK specifies a version code that has already been used.'
+    upload_to_play_store
+  end
+
+  desc "In this lane, we want to automate a complete release process. We will do the following:
+  1) Build a release build from master branch and upload to Play Store.
+  2) Tag master branch
+  3) Push the new tag to remote
+  4) Create PR to merge master into development branch"
+  lane :go_live do
+    UI.header "GO LIVE BEGINS!"
+
+    # Build the app and upload
+    upload_to_play_store_internal_test
+
+    UI.success "Successfully uploaded the application!"
+  end
+
+end

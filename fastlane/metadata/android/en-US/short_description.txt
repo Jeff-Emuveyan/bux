@@ -1,0 +1,1 @@
+A simple app to see price of products
