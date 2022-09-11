@@ -51,6 +51,8 @@ platform :android do
 
     if release_message.nil? || release_message.empty?
        release_message = "Default release message for app of " + " v" + version_name
+    else
+       release_message = release_message + " v" + version_name
     end
 
     if release_now == false
