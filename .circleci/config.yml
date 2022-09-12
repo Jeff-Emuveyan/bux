@@ -39,6 +39,9 @@ jobs:
       - android/restore-gradle-cache
       - android/restore-build-cache
       - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+      - run:
           name: Install Fastlane
           command: bundle install
       - run:
