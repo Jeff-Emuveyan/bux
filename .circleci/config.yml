@@ -39,6 +39,9 @@ jobs:
       - android/restore-gradle-cache
       - android/restore-build-cache
       - run:
+          name: Install Fastlane
+          command: bundle install fastlane
+      - run:
           name: Deploy a release build to Playstore production track
           command: bundle exec fastlane go_live # This command will reference our Fast-file and call the lane we specified.
 
