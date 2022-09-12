@@ -178,9 +178,9 @@ platform :android do
     # Create a PR from development to master (We are doing this assuming master needs to be updated with development).
     # Since we don't have a development branch in this project, we use a 'circleci-and-fastlane' branch to act as our development branch.
     create_PR(
-        title: "master to dummy branch"
-        message: "Update dummy with master"
-        head_branch_name: "circleci-and-fastlane"
+        title: "master to dummy branch",
+        message: "Update dummy with master",
+        head_branch_name: "circleci-and-fastlane",
         base_branch_name: "master"
     )
 
