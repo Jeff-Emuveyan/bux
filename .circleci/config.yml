@@ -71,7 +71,7 @@ workflows:
                 path: ~/test-results/junit
           filters:
             branches:
-              only: circleci-and-fastlane
+              only: circleci-and-fastlane-dump
 
       - deploy-release-build:
           requires:
