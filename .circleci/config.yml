@@ -15,6 +15,9 @@ jobs:
       - checkout
       - android/restore-gradle-cache
       - android/restore-build-cache
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew # OPTIONAL: Need this command else we may get 'Gradlew: Permission denied' when trying to install Fastlane
       - android/run-tests:
           test-command: ./gradlew testDebug
       - android/save-gradle-cache
@@ -40,7 +43,7 @@ jobs:
       - android/restore-build-cache
       - run:
           name: chmod permissions
-          command: chmod +x ./gradlew # Need this command else we will get 'Gradlew: Permission denied' when trying to install Fastlane
+          command: chmod +x ./gradlew # OPTIONAL: Need this command else we may get 'Gradlew: Permission denied' when trying to install Fastlane
       - run:
           name: Install Fastlane
           command: bundle install
