@@ -40,7 +40,7 @@ jobs:
       - android/restore-build-cache
       - run:
           name: chmod permissions
-          command: chmod +x ./gradlew
+          command: chmod +x ./gradlew # Need this command else we will get 'Gradlew: Permission denied' when trying to install Fastlane
       - run:
           name: Install Fastlane
           command: bundle install
@@ -48,35 +48,9 @@ jobs:
           name: Deploy a release build to Playstore production track
           command: bundle exec fastlane go_live # This command will reference our Fast-file and call the lane we specified.
 
+
 workflows:
   bux-android-ci-cd-process:
     jobs:
       - unit-test
-      - android/run-ui-tests:
-          executor:
-            name: android/android-machine
-            resource-class: xlarge
-          matrix:
-            alias: ui_test_on_multiple_devices
-            parameters:
-              system-image:
-                - system-images;android-30;google_apis;x86
-                - system-images;android-29;google_apis;x86
-          system-image: << matrix.system-image >>
-          post-run-tests-steps:
-            - checkout
-            - run:
-                name: Save test results
-                command: |
-                  mkdir -p ~/test-results/junit/
-                  find . -type f -regex ".*/build/outputs/androidTest-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-                when: always
-            - store_test_results:
-                path: ~/test-results
-            - store_artifacts:
-                path: ~/test-results/junit
-          filters:
-            branches:
-              only: circleci-and-fastlane-dump
-
       - deploy-release-build

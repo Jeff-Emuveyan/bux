@@ -147,6 +147,24 @@ platform :android do
     upload_to_play_store
   end
 
+  desc "Create pull a request.
+    Do read: https://docs.fastlane.tools/actions/create_pull_request/
+    params:
+    1) title: Title of the PR
+    2) message: Additional message about the pull request
+    3) head_branch_name: The name of the branch where your changes are implemented
+    4) base_branch_name: The name of the branch you want your changes pulled into (defaults to master)
+  "
+  lane :create_PR do |options|
+    create_pull_request(
+      repo: "bux",
+      title: options[:title],
+      head: options[:head_branch_name], # optional, defaults to current branch name
+      base: options[:base_branch_name], # optional, defaults to "master"
+      body: options[:message]
+    )
+  end
+
   desc "In this lane, we want to automate a complete release process. We will do the following:
   1) Build a release build from master branch and upload to Play Store.
   2) Tag master branch
@@ -157,8 +175,11 @@ platform :android do
 
     # Build the app and upload
     upload_to_play_store_production
+    # Create a PR from development to master (We are doing this assuming master needs to be updated with development).
+    # Since we don't have a development branch in this project, we use a 'circleci-and-fastlane' branch to act as our development branch.
+    create_PR title: master to dummy message: Update dummy with master head_branch_name: circleci-and-fastlane base_branch_name: master
 
-    UI.success "Successfully uploaded the application!"
+    UI.success "GO LIVE IS COMPLETED SUCCESSFULLY!"
   end
 
 end
