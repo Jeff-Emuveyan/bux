@@ -74,6 +74,6 @@ workflows:
           requires:
             - unit-test
             - android/run-ui-tests
-            filters:
-              branches:
-                only: circleci-and-fastlane
+          filters:
+            branches:
+              only: circleci-and-fastlane
