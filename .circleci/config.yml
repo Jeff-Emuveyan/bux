@@ -73,10 +73,4 @@ workflows:
             branches:
               only: circleci-and-fastlane-dump
 
-      - deploy-release-build:
-          requires:
-            - unit-test
-            #- android/run-ui-tests
-          filters:
-            branches:
-              only: circleci-and-fastlane
+      - deploy-release-build
