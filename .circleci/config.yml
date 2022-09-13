@@ -55,5 +55,10 @@ jobs:
 workflows:
   bux-android-ci-cd-process:
     jobs:
-
-      - deploy-release-build
+      - unit-test
+      - deploy-release-build:
+         requires:
+           - unit-test
+         filters:
+           branches:
+             only: master

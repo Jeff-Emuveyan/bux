@@ -157,11 +157,12 @@ platform :android do
   "
   lane :create_pr do |options|
     create_pull_request(
-      repo: "bux",
       title: options[:title],
       head: options[:head_branch_name], # optional, defaults to current branch name
       base: options[:base_branch_name], # optional, defaults to "master"
-      body: options[:message]
+      body: options[:message],
+      repo: "Jeff-Emuveyan/bux",
+      api_token: "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" # you can generate one at https://github.com/settings/tokens
     )
   end
 
@@ -174,14 +175,14 @@ platform :android do
     UI.header "GO LIVE BEGINS!"
 
     # Build the app and upload
-    # upload_to_play_store_production
-    # Create a PR from development to master (We are doing this assuming master needs to be updated with development).
-    # Since we don't have a development branch in this project, we use a 'circleci-and-fastlane' branch to act as our development branch.
+    upload_to_play_store_production
+    # Create a PR from master to development. We are doing this assuming development needs to be updated with new changes in master.
+    # Since we don't have a development branch in this project, we use a 'dummy' branch to act as our development branch.
     create_PR(
         title: "master to dummy branch",
         message: "Update dummy with master",
-        head_branch_name: "circleci-and-fastlane",
-        base_branch_name: "master"
+        head_branch_name: "master",
+        base_branch_name: "dummy"
     )
 
     UI.success "GO LIVE IS COMPLETED SUCCESSFULLY!"
