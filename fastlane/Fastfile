@@ -178,7 +178,7 @@ platform :android do
     upload_to_play_store_production
     # Create a PR from master to development. We are doing this assuming development needs to be updated with new changes in master.
     # Since we don't have a development branch in this project, we use a 'dummy' branch to act as our development branch.
-    create_PR(
+    create_pr(
         title: "master to dummy branch",
         message: "Update dummy with master",
         head_branch_name: "master",
