@@ -155,7 +155,7 @@ platform :android do
     3) head_branch_name: The name of the branch where your changes are implemented
     4) base_branch_name: The name of the branch you want your changes pulled into (defaults to master)
   "
-  lane :create_PR do |options|
+  lane :create_pr do |options|
     create_pull_request(
       repo: "bux",
       title: options[:title],
