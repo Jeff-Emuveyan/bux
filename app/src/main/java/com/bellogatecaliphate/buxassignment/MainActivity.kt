@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun disableNightMode() {
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
