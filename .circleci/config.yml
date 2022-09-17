@@ -49,12 +49,8 @@ jobs:
           command: bundle install
       - run:
           name: Deploy a release build to Playstore production track
-          command: bundle exec fastlane go_live github_access_token:$GITHUB_PERSONAL_ACCESS_TOKEN
-          # This command above will reference our Fast-file and call the lane we specified - go_live.
-          # Note that we are using circleci environment variable to provide the github_access_token param
-          # or go_live. This is because if Github detects that we are hardcoding a github personal access
-          # token to our code base, it will automatically delete the token. Therefore we use an environment
-          # variable on circleci to save the token for us.
+          command: |
+            echo $GITHUB_PERSONAL_ACCESS_TOKEN # this env var must be set within the project
 
 
 workflows:
