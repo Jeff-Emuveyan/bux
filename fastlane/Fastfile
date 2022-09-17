@@ -150,19 +150,25 @@ platform :android do
   desc "Create pull a request.
     Do read: https://docs.fastlane.tools/actions/create_pull_request/
     params:
-    1) title: Title of the PR
-    2) message: Additional message about the pull request
-    3) head_branch_name: The name of the branch where your changes are implemented
-    4) base_branch_name: The name of the branch you want your changes pulled into (defaults to master)
+    1) github_access_token: You can generate one at https://github.com/settings/tokens, but you MUST
+                             provide this value from an environment variable via your CI, not hard coded because Github will
+                             delete the token if it detects that you have hardcoded it in your code base.
+                             Read here: https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project
+
+    2) title: Title of the PR
+    3) message: Additional message about the pull request
+    4) head_branch_name: The name of the branch where your changes are implemented
+    5) base_branch_name: The name of the branch you want your changes pulled into (defaults to master)
   "
   lane :create_pr do |options|
     create_pull_request(
+      api_token: options[:github_access_token],
       title: options[:title],
       head: options[:head_branch_name], # optional, defaults to current branch name
       base: options[:base_branch_name], # optional, defaults to "master"
       body: options[:message],
-      repo: "Jeff-Emuveyan/bux",
-      api_token: "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" # you can generate one at https://github.com/settings/tokens
+      repo: "Jeff-Emuveyan/bux"
+      # you can generate one at https://github.com/settings/tokens
       # this api_token WILL EXPIRE after 90 days. So always remember to generate a new one in you github.
     )
   end
@@ -171,7 +177,14 @@ platform :android do
   1) Build a release build from master branch and upload to Play Store.
   2) Tag master branch
   3) Push the new tag to remote
-  4) Create PR to merge master into development branch"
+  4) Create PR to merge master into development branch
+
+  Param:
+    github_access_token: You can generate one at https://github.com/settings/tokens, but you MUST
+                         provide this value from an environment variable via your CI, not hard coded because Github will
+                         delete the token if it detects that you have hardcoded it in your code base.
+                         Read here: https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project
+  "
   lane :go_live do
     UI.header "GO LIVE BEGINS!"
 
@@ -180,6 +193,7 @@ platform :android do
     # Create a PR from master to development. We are doing this assuming development needs to be updated with new changes in master.
     # Since we don't have a development branch in this project, we use a 'dummy' branch to act as our development branch.
     create_pr(
+        api_token: options[:github_access_token],
         title: "master to dummy branch",
         message: "Update dummy with master",
         head_branch_name: "master",
