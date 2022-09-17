@@ -162,7 +162,7 @@ platform :android do
       base: options[:base_branch_name], # optional, defaults to "master"
       body: options[:message],
       repo: "Jeff-Emuveyan/bux",
-      api_token: "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" # you can generate one at https://github.com/settings/tokens
+      api_token: "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" # you can generate one at https://github.com/settings/tokens
       # this api_token WILL EXPIRE after 90 days. So always remember to generate a new one in you github.
     )
   end
