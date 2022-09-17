@@ -189,7 +189,7 @@ platform :android do
     UI.header "GO LIVE BEGINS!"
 
     # Build the app and upload
-    upload_to_play_store_production
+    #upload_to_play_store_production
     # Create a PR from master to development. We are doing this assuming development needs to be updated with new changes in master.
     # Since we don't have a development branch in this project, we use a 'dummy' branch to act as our development branch.
     github_access_token = options[:github_access_token]
