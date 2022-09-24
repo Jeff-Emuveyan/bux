@@ -36,7 +36,7 @@ jobs:
   deploy-release-build: # Use fastlane to create a release build and push to Play store internal test track:
     executor:
       name: android/android-machine
-      resource-class: large
+      resource-class: xlarge
     steps:
       - checkout
       - android/restore-gradle-cache
