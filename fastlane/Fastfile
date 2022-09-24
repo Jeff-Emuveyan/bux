@@ -185,15 +185,15 @@ platform :android do
                          delete the token if it detects that you have hardcoded it in your code base.
                          Read here: https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project
   "
-  lane :go_live do |options|
+  lane :go_live do
     UI.header "GO LIVE BEGINS!"
 
     # Build the app and upload
     #upload_to_play_store_production
     # Create a PR from master to development. We are doing this assuming development needs to be updated with new changes in master.
     # Since we don't have a development branch in this project, we use a 'dummy' branch to act as our development branch.
-    github_access_token = options[:github_access_token]
-    UI.header "Log Jeff token is #{github_access_token}"
+    #github_access_token = options[:github_access_token]
+    #UI.header "Log Jeff token is #{github_access_token}"
 
     UI.success "GO LIVE IS COMPLETED SUCCESSFULLY!"
   end
