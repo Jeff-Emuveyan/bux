@@ -194,7 +194,7 @@ platform :android do
     # Since we don't have a development branch in this project, we use a 'dummy' branch to act as our development branch.
     github_access_token = options[:github_access_token]
     create_pr(
-        api_token: "hfhfhfhfhfh",
+        api_token: "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",
         title: "master to dummy branch",
         message: "Update dummy with master",
         head_branch_name: "master",
