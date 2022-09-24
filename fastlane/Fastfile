@@ -185,7 +185,7 @@ platform :android do
                          delete the token if it detects that you have hardcoded it in your code base.
                          Read here: https://circleci.com/docs/env-vars#setting-an-environment-variable-in-a-project
   "
-  lane :go_live do
+  lane :go_live do |options|
     UI.header "GO LIVE BEGINS!"
 
     # Build the app and upload
