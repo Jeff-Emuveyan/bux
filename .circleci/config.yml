@@ -56,14 +56,26 @@ jobs:
           # token to our code base, it will automatically delete the token. Therefore we use an environment
           # variable on circleci to save the token for us.
 
+          # PROBLEM: Using environment variable or even Context environment variables has never worked for us
+          # because once we try to pass the environment variable from circleci to fastlane, the actual value of the
+          # environment variable will be masked as ********. I feel this means that environment variables can only
+          # be used within a circleci file. It can't be shared outside circleci. So it will never work for us once we
+          # try to pass it to fastlane. I don't know how to resolve this.
+
+          # My suggestion is to see if there is a way circleci can create the pull request for us instead of
+          # using fastlane to do it, because that was what we needed the environment variable for in the first place:
+          # to create PR's using fastlane.
+
 
 workflows:
+  # The workflow here is to run unit test for every commit. But when the commit is on the master branch,
+  # we want to run the unit test as usual and then upload the apk to play store.
   bux-android-ci-cd-process:
     jobs:
-      #- unit-test
-      - deploy-release-build
-          # requires:
-          # - unit-test
-        # filters:
-           # branches:
-          #  only: master
+      - unit-test
+      - deploy-release-build:
+         requires:
+          - unit-test
+         filters:
+          branches:
+           only: master
