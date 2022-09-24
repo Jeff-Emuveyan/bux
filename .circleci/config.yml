@@ -62,8 +62,8 @@ workflows:
     jobs:
       # - unit-test
       - deploy-release-build:
-         requires:
-           - unit-test
+          # requires:
+          # - unit-test
          filters:
            branches:
              only: master
